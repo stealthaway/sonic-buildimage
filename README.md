@@ -190,7 +190,13 @@ make configure PLATFORM=[ASIC_VENDOR]
 #       and is well-tested.
 make SONIC_BUILD_JOBS=4 all
 ```
-
+By default as a part of the frr module only bgp protocol is build in the defaul SONiC image.
+In case there are other modules required follow these steps:
+1. Modify the /usr/share/sonic/templates/copp_cfg.j2 to add ISIS trap configuration.
+2. Log into the bgp docker and modify the /usr/share/sonic/templates/supervisord/supervisord.conf.j2 to add isisd
+3. Edit/Create isis configuration file with /etc/sonic/frr/isisd.conf
+4. Restart bgp container with systemctl restart bgp
+5. This will restart the isisd daemon
 The supported ASIC vendors are:
 
 * PLATFORM=barefoot
