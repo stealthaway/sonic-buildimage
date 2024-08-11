@@ -197,6 +197,25 @@ In case there are other modules required follow these steps:
 3. Edit/Create isis configuration file with /etc/sonic/frr/isisd.conf
 4. Restart bgp container with systemctl restart bgp
 5. This will restart the isisd daemon
+
+Method to enable OSPFD
+1. ospfd protocol daemon is already build and available in the docker image of 'bgp' 
+2. Verify the binary is present by logging into the bgp docker using command
+   docker exec -it bgp /bin/bash
+   cd /usr/lib/frr
+   ls
+3. The modification to allow the ospf packets in the control plane should be done at the Sonic bash level
+   go to /usr/share/sonic/templates/copp_cfg.j2 and add an entry in the COPP_TRAP field for ospfd, similart to
+   that present for bgpd
+4. After this go back to the docker bgp shell and modify the supervisord conf file to include /ospfd
+The supervisord.conf file is present in /etc/supervisor/conf.d
+Add an entry similar to bgpd for ospfd
+
+5. Run supervisorctl, it will spawn the supervisor> shell, In the shell command run command status, it should show the processes being run
+which would show bgpd already running. Run 'reread' command and the followed by 'restart' at the supervisor shell.
+
+6. At this step and a restart of the supervisor, we should see the ospfd process is in running state.
+
 The supported ASIC vendors are:
 
 * PLATFORM=barefoot
