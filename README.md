@@ -216,6 +216,13 @@ which would show bgpd already running. Run 'reread' command and the followed by 
 
 6. At this step and a restart of the supervisor, we should see the ospfd process is in running state.
 
+Note these file changes will remain persistent in the docker container bgp. If these changes are to be made that all new builds have bgp enabled, the changes 
+should be done in the templates file (TBD)
+
+Verification if OSPFD is working
+1. The first way to verify that OSPF is running is by looking into the running process in bgp, where it should show both bgp and ospf running.
+2. The second step would be to verify if the CLI for OSPF is accessible (TBD)
+
 The supported ASIC vendors are:
 
 * PLATFORM=barefoot
